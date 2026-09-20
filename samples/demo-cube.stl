@@ -1,0 +1,86 @@
+solid demo_cube
+  facet normal 0 0 -4
+    outer loop
+      vertex -1 -1 -1
+      vertex 1 1 -1
+      vertex 1 -1 -1
+    endloop
+  endfacet
+  facet normal 0 0 -4
+    outer loop
+      vertex -1 -1 -1
+      vertex -1 1 -1
+      vertex 1 1 -1
+    endloop
+  endfacet
+  facet normal 0 0 4
+    outer loop
+      vertex -1 -1 1
+      vertex 1 -1 1
+      vertex 1 1 1
+    endloop
+  endfacet
+  facet normal 0 0 4
+    outer loop
+      vertex -1 -1 1
+      vertex 1 1 1
+      vertex -1 1 1
+    endloop
+  endfacet
+  facet normal 0 -4 0
+    outer loop
+      vertex -1 -1 -1
+      vertex 1 -1 -1
+      vertex 1 -1 1
+    endloop
+  endfacet
+  facet normal 0 -4 0
+    outer loop
+      vertex -1 -1 -1
+      vertex 1 -1 1
+      vertex -1 -1 1
+    endloop
+  endfacet
+  facet normal 0 4 0
+    outer loop
+      vertex -1 1 -1
+      vertex -1 1 1
+      vertex 1 1 1
+    endloop
+  endfacet
+  facet normal 0 4 0
+    outer loop
+      vertex -1 1 -1
+      vertex 1 1 1
+      vertex 1 1 -1
+    endloop
+  endfacet
+  facet normal -4 0 0
+    outer loop
+      vertex -1 -1 -1
+      vertex -1 -1 1
+      vertex -1 1 1
+    endloop
+  endfacet
+  facet normal -4 0 0
+    outer loop
+      vertex -1 -1 -1
+      vertex -1 1 1
+      vertex -1 1 -1
+    endloop
+  endfacet
+  facet normal 4 0 0
+    outer loop
+      vertex 1 -1 -1
+      vertex 1 1 -1
+      vertex 1 1 1
+    endloop
+  endfacet
+  facet normal 4 0 0
+    outer loop
+      vertex 1 -1 -1
+      vertex 1 1 1
+      vertex 1 -1 1
+    endloop
+  endfacet
+endsolid demo_cube
