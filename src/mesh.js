@@ -56,3 +56,21 @@ export function parseModel(name, buffer) {
 export function formatPosition(point) {
   return [point.x, point.y, point.z].map((value) => Number(value).toFixed(2)).join(', ')
 }
+
+export function predictionTriangles(object) {
+  const values = []
+  const vertex = new THREE.Vector3()
+  object.updateMatrixWorld(true)
+  object.traverse((child) => {
+    if (!child.isMesh) return
+    const geometry = child.geometry
+    const positions = geometry.getAttribute('position')
+    const count = geometry.index?.count || positions.count
+    if (values.length + count * 3 > 900000) throw new Error('Prediction supports up to 100,000 triangles. Use a smaller mesh.')
+    for (let i = 0; i < count - count % 3; i++) {
+      vertex.fromBufferAttribute(positions, geometry.index ? geometry.index.getX(i) : i).applyMatrix4(child.matrixWorld)
+      values.push(vertex.x, vertex.y, vertex.z)
+    }
+  })
+  return values
+}

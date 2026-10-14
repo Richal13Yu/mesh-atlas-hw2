@@ -1,0 +1,9 @@
+.git
+.venv*
+node_modules
+dist
+backend/data
+artifacts/runs
+artifacts/qa
+artifacts/demo-raw
+**/__pycache__

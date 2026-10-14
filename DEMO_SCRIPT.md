@@ -1,13 +1,35 @@
-# Three-minute demo outline
+# HW2 live demonstration (under three minutes)
 
-**0:00–0:25 — Data and goal.** “This project views 3D triangle meshes. The bundled model is a synthetic example with a small surface depression; I can replace it with my own OBJ or STL research mesh. This viewer is a starting point for later classification, defect detection, or segmentation.”
+The prepared recording uses the actual running browser application, English captions and a computer-generated English narration. It demonstrates measured predictions/training, not animated mock results. `scripts/demo_scenes.json` contains the narration and caption text. The student should review the recording and code before submitting; narration is not a claim that the student personally spoke or independently mastered the material.
 
-**0:25–1:10 — Basic interaction.** Show the sample model. Rotate with left drag, pan with right drag, zoom with the wheel. Toggle wireframe, point out the vertex and triangle counts, and reset the camera.
+| Approximate time | Show | Explain |
+|---|---|---|
+| 0:00–0:16 | Rotate the default torus and toggle wireframe | HW1 viewer extended with four-class mesh learning; original viewer features retained. |
+| 0:16–0:31 | Predict the torus | Triangle geometry reaches FastAPI/PyTorch; class probabilities return to the UI. |
+| 0:31–0:45 | Select and predict an ellipsoid and a cylinder | Different, independently generated objects produce new predictions. |
+| 0:45–1:00 | Upload the binary cuboid STL and predict | A provided file follows the same pipeline without a notebook or inference script. |
+| 1:00–1:20 | Open Training lab; show architecture and settings | 24 → 48 → 48 → 4 MLP, ReLU, 3,748 parameters, cross-entropy and mini-batch SGD; small enough to explain and run locally. |
+| 1:20–1:42 | Show loss/accuracy curves, test metrics and confusion matrix | Test accuracy 99.17%, versus shallow logistic regression 98.50%; 5 versus 9 errors, mainly confusion around cylinders/cuboids. |
+| 1:42–2:04 | Change learning rate, epochs, width and layer count; start training | **Optional challenge 1:** interactive hyperparameters. **Optional challenge 2:** live train/validation curves and completed train/val/test metrics. |
+| 2:04–2:22 | Activate the newly trained model and predict again | GUI training creates actual weights used by the same inference service. |
+| 2:22–2:45 | Restore reference model and show its results | Synthetic-domain limitations, uncalibrated scores, reproducible artifacts and AI disclosure. |
 
-**1:10–2:15 — Annotation.** Choose **Add surface marker**, click a visible surface feature, select **Defect**, enter a short title and note, and save. Show the marker in the 3D view and list. Reload the page and show that the marker persists.
+Exact timestamps are recorded in the generated subtitle file; actual timing depends on narration and local execution speed. The prepared final MP4 is **158.48 seconds (2:38)**, below the 180-second limit.
 
-**2:15–2:40 — Backend.** Point to “Annotations saved in SQLite database” in the inspector. Briefly show the local API docs at `localhost:8000/docs` or the `backend/data/mesh_atlas.db` file. This demonstrates database integration.
+## If recording your own narration
 
-**2:40–3:00 — Extensibility.** Open the upload control and explain that personal OBJ/STL data can replace the example. Mention that future assignments can add a model prediction panel and per-face labels.
+Start `npm start`, open `http://localhost:5173`, and follow the sequence above. Use the reference model when stating the reference scores. A new run can score differently; describe the numbers actually shown. Do not claim these synthetic results validate a research or medical application.
 
-Before recording, start **both** the backend and frontend using the README commands and make sure the inspector says **SQLite database**. Keep the recording under three minutes.
+## Re-record the browser walkthrough
+
+With both servers running, run `node scripts/record_demo.mjs`. On macOS it uses Google Chrome; set `CHROME_PATH` to override. Without optional prepared audio timing, it records captions with estimated reading time. Temporary recordings go to `artifacts/demo-raw/` and are excluded from Git. The recorder waits for actual API and training results before advancing.
+
+For the included macOS narration and final MP4 (requires `say` and `ffmpeg`):
+
+```bash
+.venv/bin/python scripts/prepare_demo_audio.py
+node scripts/record_demo.mjs
+.venv/bin/python scripts/finalize_demo.py
+```
+
+The default final output is the sibling `submission/` folder. `finalize_demo.py` rejects a raw recording of 180 seconds or longer; it preserves the real recording speed and aligns audio using the recorded scene times.

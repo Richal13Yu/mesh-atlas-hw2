@@ -1,0 +1,93 @@
+.workspace{grid-template-columns:220px minmax(440px,1fr) 310px}
+.main-panel{padding:28px}
+.left-panel h1{margin:22px 0 14px}
+.intro{margin-bottom:24px}
+.workspace-nav{display:grid;gap:7px;margin-bottom:30px}
+.workspace-nav button{display:flex;gap:14px;padding:12px 10px;text-align:left;border:1px solid transparent;background:none;color:#8399a5;border-radius:6px;font-size:10px}
+.workspace-nav button span{font-size:12px;font-weight:600;color:#b4c4c9}
+.workspace-nav button.selected{border-color:#5b706e;background:#233631;color:#b2d0ba}
+.workspace-nav button.selected span{color:#d7e9dd}
+.example-section{margin-top:27px}
+.example-buttons{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.example-buttons button{padding:10px 4px;background:#1b2a34;color:#bac9ce;border:1px solid #425660;border-radius:5px;font-size:11px}
+.example-buttons button.selected,.example-buttons button:hover{color:#f0c29e;border-color:#bd906c;background:#353632}
+.example-section .sample-note{border:0;padding:0;margin-top:12px}
+.sidebar-bottom{padding-top:40px}
+.prediction-panel{border-bottom:1px solid #354651;padding-bottom:22px;margin-bottom:25px}
+.prediction-panel h3{font:600 21px 'Space Grotesk',sans-serif;letter-spacing:-.5px;margin:10px 0}
+.learning-copy{font-size:11px;color:#a0b3bd;line-height:1.7;margin:8px 0}
+.prediction-panel .primary-button{margin-top:17px;background:#a7cfba}
+.prediction-panel .primary-button:hover{background:#c7e2d3}
+.prediction-placeholder{font-size:11px;color:#879ba7;line-height:1.6;margin:17px 0}
+.prediction-result{margin:18px 0}
+.prediction-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.prediction-heading strong{font:600 25px 'Space Grotesk',sans-serif;color:#b4dec6}
+.prediction-heading>span{font-size:12px;color:#b4dec6}
+.probability-row{margin:10px 0}
+.probability-row>div:first-child{display:flex;justify-content:space-between;font-size:10px;color:#aebfc7;margin-bottom:6px}
+.probability-track{background:#283b47;height:5px;border-radius:3px;overflow:hidden}
+.probability-track>div{height:100%;background:#9ecab4;border-radius:3px;transition:width .3s}
+.scope-note{font-size:10px;color:#8e9fa9;line-height:1.65;margin:13px 0}
+.model-caption{font-size:9px;color:#859ca8;margin:13px 0 0;overflow-wrap:anywhere}
+.text-button{background:none;border:0;padding:3px 0;color:#dbb48c;font-size:11px;text-align:left}
+.text-button:hover{text-decoration:underline}
+.learning-warning{font-size:11px;line-height:1.6;color:#e1b986;background:#3e3427;padding:9px;border-radius:5px}
+.learning-error{color:#ffc2b8;background:#472f32;padding:12px;border:1px solid #a76f69;border-radius:5px;font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+.learning-error .text-button{display:block;margin-top:6px}
+.lab-title{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px}
+.lab-title h2{font:600 28px 'Space Grotesk',sans-serif;margin:10px 0 5px;letter-spacing:-1px}
+.lab-title p{font-size:11px;color:#98aeb8;margin:0}
+.lab-badge{border:1px solid #4a635c;padding:8px;border-radius:4px;font-size:9px;color:#b0d5be;white-space:nowrap;letter-spacing:1px}
+.architecture-card{background:linear-gradient(100deg,#233c36,#20303a);border:1px solid #45635a;border-radius:8px;padding:17px 20px}
+.architecture-card>span{font-size:9px;color:#afc7b6;letter-spacing:1.8px;display:block}
+.architecture-card>strong{font:500 28px 'Space Grotesk',sans-serif;display:block;margin:9px 0;color:#e0eada;letter-spacing:2px}
+.architecture-card p{font-size:10px;color:#a6bbb5;margin:0;line-height:1.6}
+.training-controls{margin-top:23px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.training-controls label{font-size:10px;color:#b5c3c9;display:flex;flex-direction:column;gap:8px}
+.training-controls input,.training-controls select{min-width:0;width:100%;color:#e1e8e8;background:#182a35;border:1px solid #4b606b;border-radius:5px;padding:10px 7px;font-size:12px}
+.training-actions{grid-column:1/-1;display:flex;gap:16px;align-items:center;margin-top:2px}
+.training-actions .primary-button{min-width:165px}
+.run-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:23px;margin-bottom:10px;flex-wrap:wrap}
+.run-tabs{display:flex;gap:6px}
+.run-tabs button{font-size:10px;color:#94a8b3;padding:7px 9px;background:transparent;border:1px solid #3c505c;border-radius:4px}
+.run-tabs button.selected{background:#30434b;border-color:#8a9b92;color:#e0e3d5}
+.run-status{font-size:10px;color:#acd0bb;text-transform:capitalize}
+.training-progress{height:3px;background:#2a3c44;border-radius:2px;margin-bottom:12px}
+.training-progress>div{height:100%;background:#a6c9ae;transition:width .15s}
+.learning-charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.chart-card{border:1px solid #3b505b;background:#172630;border-radius:7px;padding:13px 9px 11px}
+.chart-card h4,.evaluation-details h4{font:500 12px 'Space Grotesk',sans-serif;margin:0 0 8px;color:#d6dfdd}
+.chart-card h4{padding-left:7px}
+.chart-card svg{display:block;width:100%;height:auto}
+.chart-card text{fill:#9cafba;font:11px Arial,sans-serif}
+.chart-legend{display:flex;justify-content:center;gap:13px;color:#a6b6bd;font-size:9px;flex-wrap:wrap}
+.chart-legend span{display:flex;align-items:center;gap:5px}
+.chart-legend i{display:inline-block;width:12px;height:2px}
+.train-line{background:#88c9bc}.val-line{background:#e8aa79}
+.chart-empty{padding:50px 12px;font-size:12px;color:#93aab8;border:1px dashed #3b505b;border-radius:7px;text-align:center}
+.metric-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:16px 0}
+.metric-cards>div{padding:14px 10px;background:#1c2c36;border:1px solid #3f5560;border-radius:6px;min-width:0}
+.metric-cards span{display:block;font-size:8px;font-weight:600;letter-spacing:.8px;color:#a8b6be;line-height:1.5}
+.metric-cards strong{display:block;font:500 23px 'Space Grotesk',sans-serif;letter-spacing:-.7px;margin:8px 0;color:#e1e7df}
+.metric-cards small{font-size:9px;color:#8ea4ae;line-height:1.5;display:block}
+.metric-cards .highlight-metric{background:#253c33;border-color:#6a907b}
+.metric-cards .highlight-metric strong{color:#c5e7ce}
+.evaluation-details{display:grid;grid-template-columns:1fr 1fr;gap:22px;border:1px solid #3b505b;border-radius:7px;padding:17px;background:#172630}
+.comparison{font-size:12px;color:#b9c4c7}
+.comparison strong{font-size:26px;color:#b8dbc4}.comparison span{padding:0 10px;color:#8096a4}
+.confusion-table{border-collapse:collapse;width:100%;font-size:10px}
+.confusion-table th{color:#93aab6;font-weight:500;text-align:left;padding:5px 4px;font-size:9px}
+.confusion-table td{text-align:center;padding:5px;border:2px solid #172630;background:#23333c;color:#8da4b1}
+.confusion-table td.diagonal{background:#365b4b;color:#daf0db}
+.confusion-table td.misclassified{background:#72583d;color:#ffdfb6}
+.model-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.model-actions .outline-button{margin:0;padding:0 13px}
+.lab-footnote{margin-top:22px;border-top:1px solid #344954;padding-top:17px}
+.lab-footnote strong{font-size:11px;font-weight:500;color:#b5c4ca}
+.lab-footnote p{font-size:10px;color:#90a6b1;line-height:1.7;margin:7px 0}
+.right-header h3{font-size:14px}.right-panel .stat-grid{margin-top:15px}.right-panel .dimension-box{margin-bottom:20px}
+.canvas-wrap{height:min(53vh,530px);min-height:360px}
+@media(min-width:1500px){.main-panel{padding:30px 40px}.workspace{grid-template-columns:235px minmax(500px,1fr) 325px}}
+@media(max-width:1200px){.workspace{grid-template-columns:190px minmax(400px,1fr) 270px}.main-panel{padding:24px 20px}.learning-charts{grid-template-columns:1fr}.metric-cards{grid-template-columns:repeat(2,1fr)}.evaluation-details{grid-template-columns:1fr}.lab-badge{display:none}}
+@media(max-width:980px){.workspace{grid-template-columns:185px minmax(0,1fr)}.right-panel{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:15px 28px}.prediction-panel{grid-column:1;grid-row:1/8;border:0;margin:0}.right-panel>div{grid-column:2}.right-panel .stat-grid{grid-template-columns:1fr 1fr}.right-panel .storage-status{grid-column:1/-1}.learning-charts{grid-template-columns:repeat(2,minmax(0,1fr))}.evaluation-details{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.workspace{display:block}.left-panel .workspace-nav{margin-bottom:18px;grid-template-columns:1fr 1fr}.workspace-nav button{justify-content:center}.left-panel .panel-kicker{display:none}.example-section{margin-top:17px}.example-buttons{grid-template-columns:repeat(4,1fr)}.example-section .sample-note{display:none}.left-panel h1,.intro,.sidebar-bottom{display:none}.left-panel{padding:18px}.main-panel{padding:24px 16px}.right-panel{display:block;padding:24px 18px}.prediction-panel{border-bottom:1px solid #354651;margin-bottom:20px}.training-controls{grid-template-columns:repeat(3,minmax(0,1fr))}.learning-charts{grid-template-columns:1fr}.evaluation-details{grid-template-columns:1fr}.canvas-wrap{min-height:340px}.lab-title h2{font-size:25px}.viewer-footer{gap:9px}.topbar .topbar-right>span{display:none}.topbar .brand-subtitle,.topbar .brand-divider{display:none}}

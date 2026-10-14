@@ -1,12 +1,14 @@
 {
   "name": "mesh-atlas",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "test:e2e": "node scripts/test_e2e.mjs",
+    "start": "node scripts/start.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.6",

@@ -10,6 +10,7 @@ from uuid import uuid4
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
+from backend.learning import router as learning_router
 
 
 def database_path() -> Path:
@@ -65,6 +66,7 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(title="Mesh Atlas API", lifespan=lifespan)
+app.include_router(learning_router)
 
 
 class DatasetIn(BaseModel):

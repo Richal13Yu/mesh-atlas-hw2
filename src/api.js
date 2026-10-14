@@ -8,12 +8,15 @@ function writeLocal(datasetId, annotations) {
   localStorage.setItem(localKey(datasetId), JSON.stringify(annotations))
 }
 
-async function request(path, options = {}) {
+export async function request(path, options = {}) {
   const response = await fetch(path, {
     ...options,
     headers: { 'Content-Type': 'application/json', ...options.headers },
   })
-  if (!response.ok) throw new Error(`Server returned ${response.status}`)
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}))
+    throw new Error(typeof body.detail === 'string' ? body.detail : `Server returned ${response.status}. Check the input and backend.`)
+  }
   return response.json()
 }
 

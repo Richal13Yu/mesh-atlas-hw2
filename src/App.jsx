@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import { Html, OrbitControls } from '@react-three/drei'
 import { createAnnotation, deleteAnnotation, loadDataset } from './api.js'
 import { formatPosition, modelIdFor, parseModel } from './mesh.js'
+import { PredictionPanel, TrainingLab, useLearning } from './Learning.jsx'
 
 const LABELS = {
   feature: { text: 'Feature', color: '#a5b9ef' },
@@ -60,6 +61,9 @@ function Scene({ model, annotations, selectedId, annotateMode, wireframe, onSurf
 
 export default function App() {
   const fileInput = useRef(null)
+  const loadSequence = useRef(0)
+  const learning = useLearning()
+  const [view, setView] = useState('explore')
   const [dataset, setDataset] = useState(null)
   const [annotations, setAnnotations] = useState([])
   const [storage, setStorage] = useState('browser')
@@ -75,11 +79,13 @@ export default function App() {
   const [resetKey, setResetKey] = useState(0)
 
   async function openModel(name, buffer) {
+    const sequence = ++loadSequence.current
     setBusy(true)
     setMessage('')
     try {
       const parsed = parseModel(name, buffer)
       const id = await modelIdFor(name, buffer)
+      if (sequence !== loadSequence.current) return
       setDataset({ id, name, ...parsed })
       setSelectedId(null)
       setPendingPoint(null)
@@ -89,15 +95,15 @@ export default function App() {
     } catch (error) {
       setMessage(error.message || 'Could not open this mesh.')
     } finally {
-      setBusy(false)
+      if (sequence === loadSequence.current) setBusy(false)
     }
   }
 
   useEffect(() => {
     let active = true
-    fetch('/sample-surface.obj')
+    fetch('/examples/torus.obj')
       .then((response) => { if (!response.ok) throw new Error('Sample mesh unavailable.'); return response.arrayBuffer() })
-      .then((buffer) => { if (active) openModel('sample-surface.obj', buffer) })
+      .then((buffer) => { if (active) openModel('torus.obj', buffer) })
       .catch((error) => { if (active) { setMessage(error.message); setBusy(false) } })
     return () => { active = false }
   }, [])
@@ -112,10 +118,20 @@ export default function App() {
     return () => { active = false }
   }, [dataset])
 
+  async function openExample(name) {
+    try {
+      const response = await fetch(`/examples/${name.toLowerCase()}.obj`)
+      if (!response.ok) throw new Error('Example mesh unavailable.')
+      await openModel(`${name.toLowerCase()}.obj`, await response.arrayBuffer())
+      setView('explore')
+    } catch (error) { setMessage(error.message) }
+  }
+
   async function handleUpload(event) {
     const file = event.target.files?.[0]
     if (!file) return
     await openModel(file.name, await file.arrayBuffer())
+    setView('explore')
     event.target.value = ''
   }
 
@@ -151,15 +167,15 @@ export default function App() {
   return <div className="app-shell">
     <header className="topbar">
       <div className="brand"><span className="brand-icon"><Icon name="cube" size={21} /></span><span>mesh<span className="brand-accent">atlas</span></span><span className="brand-divider"/><span className="brand-subtitle">RESEARCH WORKSPACE</span></div>
-      <div className="topbar-right"><span className="status-dot"/><span>HW1 FOUNDATION</span><button className="top-upload" onClick={() => fileInput.current?.click()}><Icon name="upload" size={16}/> Open mesh</button></div>
+      <div className="topbar-right"><span className="status-dot"/><span>HW2 · LEARNING ENABLED</span><button className="top-upload" onClick={() => fileInput.current?.click()}><Icon name="upload" size={16}/> Open mesh</button></div>
     </header>
 
     <div className="workspace">
       <aside className="sidebar left-panel">
-        <div className="panel-kicker">WORKSPACE / 01</div>
-        <h1>Surface<br/><em>explorer.</em></h1>
-        <p className="intro">Inspect 3D geometry and record points of interest directly on the surface.</p>
-        <div className="side-section-label">CURRENT DATASET</div>
+        <div className="panel-kicker">WORKSPACE / 02</div>
+        <h1>Shapes<br/><em>that learn.</em></h1>
+        <p className="intro">Explore a mesh, predict its shape family, and watch a neural network learn.</p>
+        <nav className="workspace-nav" aria-label="Workspace"><button className={view === 'explore' ? 'selected' : ''} onClick={() => setView('explore')}>01 <span>Explore & predict</span></button><button className={view === 'training' ? 'selected' : ''} onClick={() => setView('training')}>02 <span>Training lab</span></button></nav><div className="side-section-label">CURRENT DATASET</div>
         <button className="dataset-card" onClick={() => fileInput.current?.click()}>
           <span className="dataset-icon"><Icon name="cube" size={20}/></span>
           <span className="dataset-text"><strong>{dataset?.name || 'Loading sample mesh'}</strong><small>{dataset ? 'OBJ / STL model' : 'Please wait…'}</small></span>
@@ -168,11 +184,13 @@ export default function App() {
         <button className="outline-button full" onClick={() => fileInput.current?.click()}><Icon name="upload" size={17}/> Upload OBJ or STL</button>
         <input ref={fileInput} type="file" accept=".obj,.stl" onChange={handleUpload} hidden aria-label="Upload OBJ or STL mesh"/>
 
-        <div className="sidebar-bottom"><div className="side-section-label">WORKFLOW</div><div className="workflow-item"><span>01</span> Inspect geometry</div><div className="workflow-item"><span>02</span> Mark surface features</div><div className="workflow-item muted"><span>03</span> Add deep learning later</div><p className="sample-note">The bundled mesh is synthetic example data. Replace it with your research OBJ or STL file.</p></div>
+        <div className="example-section"><div className="side-section-label">TRY A SYNTHETIC SHAPE</div><div className="example-buttons">{['Ellipsoid', 'Cuboid', 'Cylinder', 'Torus'].map(name => <button key={name} onClick={() => openExample(name)} className={dataset?.name === `${name.toLowerCase()}.obj` ? 'selected' : ''}>{name}</button>)}</div><p className="sample-note">Examples are independent of the training, validation and test sets.</p></div>
+        <div className="sidebar-bottom"><div className="side-section-label">THE LEARNING PIPELINE</div><div className="workflow-item"><span>01</span> Sample the mesh surface</div><div className="workflow-item"><span>02</span> Extract 24 shape features</div><div className="workflow-item"><span>03</span> Predict with a trained MLP</div><p className="sample-note">OBJ / STL · PyTorch · FastAPI<br/>Synthetic data, reproducible training.</p></div>
       </aside>
 
       <main className="main-panel">
-        <div className="main-heading"><div><div className="eyebrow">3D MODEL VIEWER <span>/</span> SURFACE ANALYSIS</div><h2>{dataset?.name || 'Preparing viewer'}</h2><p>Explore the shape, locate features, and attach labels in 3D space.</p></div><div className="model-badge"><span/> {dataset ? 'MODEL LOADED' : 'LOADING'}</div></div>
+        {view === 'training' ? <TrainingLab learning={learning}/> : <>
+        <div className="main-heading"><div><div className="eyebrow">3D MODEL VIEWER <span>/</span> SURFACE ANALYSIS</div><h2>{dataset?.name || 'Preparing viewer'}</h2><p>Explore the geometry, then ask the neural network to classify it.</p></div><div className="model-badge"><span/> {dataset ? 'MODEL LOADED' : 'LOADING'}</div></div>
 
         <section className="viewer-card" aria-label="3D mesh viewer">
           <div className="viewer-toolbar"><div className="viewer-toolbar-title"><span className="tiny-square"/> PERSPECTIVE VIEW <span className="toolbar-separator">/</span> {dataset?.name || '—'}</div><div className="toolbar-actions"><button className={wireframe ? 'tool-button active' : 'tool-button'} onClick={() => setWireframe((value) => !value)} title="Toggle wireframe"><Icon name="layers" size={17}/> <span>Wireframe</span></button><button className="tool-button" onClick={() => setResetKey((value) => value + 1)} title="Reset view"><Icon name="reset" size={17}/> <span>Reset view</span></button></div></div>
@@ -186,11 +204,13 @@ export default function App() {
           <div className="viewer-footer"><span><strong>ROTATE</strong> drag left</span><span><strong>PAN</strong> drag right</span><span><strong>ZOOM</strong> scroll</span><span className="footer-count">{annotations.length} MARKER{annotations.length === 1 ? '' : 'S'}</span></div>
         </section>
 
-        <div className="below-viewer"><div><div className="eyebrow">RESEARCH NOTE</div><h3>A place for every observation.</h3><p>Surface markers give future models a starting point for classification, defect detection, or geometric segmentation.</p></div><button className={annotateMode ? 'primary-button active' : 'primary-button'} onClick={() => { setAnnotateMode((value) => !value); setPendingPoint(null) }} disabled={!dataset}><Icon name="pin" size={18}/>{annotateMode ? 'Cancel marking' : 'Add surface marker'}</button></div>
+        <div className="below-viewer"><div><div className="eyebrow">RESEARCH NOTE</div><h3>From geometry to prediction.</h3><p>Select Predict shape in the inspector. Surface markers remain available for your research observations.</p></div><button className={annotateMode ? 'primary-button active' : 'primary-button'} onClick={() => { setAnnotateMode((value) => !value); setPendingPoint(null) }} disabled={!dataset}><Icon name="pin" size={18}/>{annotateMode ? 'Cancel marking' : 'Add surface marker'}</button></div>
+        </>}
         {message && <div className="toast" role="status">{message}<button onClick={() => setMessage('')} aria-label="Dismiss message">×</button></div>}
       </main>
 
       <aside className="sidebar right-panel">
+        <PredictionPanel dataset={dataset} learning={learning} onTrain={() => setView('training')}/>
         <div className="right-header"><div><div className="panel-kicker">MODEL INSPECTOR</div><h3>Geometry details</h3></div><Icon name="layers" size={19}/></div>
         <div className="stat-grid"><div className="stat"><span>VERTICES</span><strong>{dataset?.stats.vertices.toLocaleString() || '—'}</strong></div><div className="stat"><span>TRIANGLES</span><strong>{dataset?.stats.triangles.toLocaleString() || '—'}</strong></div><div className="stat"><span>MESHES</span><strong>{dataset?.stats.meshes || '—'}</strong></div><div className="stat"><span>LABELS</span><strong>{annotations.length}</strong></div></div>
         <div className="dimension-box"><span>BOUNDING SIZE <small>source units</small></span><strong>{dataset?.stats.dimensions.map((value) => value.toFixed(2)).join(' × ') || '—'}</strong></div>

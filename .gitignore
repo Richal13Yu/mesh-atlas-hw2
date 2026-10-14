@@ -7,3 +7,10 @@ __pycache__/
 *.db
 .DS_Store
 .env
+artifacts/runs/
+artifacts/qa/
+artifacts/demo-raw/
+*.webm
+*.mp4
+*.aiff
+*.wav
