@@ -14,7 +14,7 @@ The prepared recording uses the actual running browser application, English capt
 | 2:04–2:22 | Activate the newly trained model and predict again | GUI training creates actual weights used by the same inference service. |
 | 2:22–2:45 | Restore reference model and show its results | Synthetic-domain limitations, uncalibrated scores, reproducible artifacts and AI disclosure. |
 
-Exact timestamps are recorded in the generated subtitle file; actual timing depends on narration and local execution speed. The prepared final MP4 is **158.48 seconds (2:38)**, below the 180-second limit.
+Exact timestamps are recorded in the generated subtitle file; actual timing depends on narration and local execution speed. The prepared final MP4 is **156.06 seconds (2:36)**, below the 180-second limit.
 
 ## If recording your own narration
 

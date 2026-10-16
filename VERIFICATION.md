@@ -20,3 +20,7 @@ Verified locally on October 14, 2026, using CPU PyTorch, Python 3.12, Node.js an
 | Submission video | Live browser capture, visual inspection, final duration below 180 seconds |
 
 Docker was not executed. This verification covers local course-demo behavior and synthetic benchmark performance, not production deployment, arbitrary research scans or calibrated uncertainty.
+
+## English submission update — October 16, 2026
+
+The model guide and submission notes were converted to English. Local document links and English-only source text were checked, and the source archive was rebuilt. The existing English video was preserved; its current measured duration is 156.06 seconds. Subtitle timings were aligned with its 2.4195-second leading trim, confirmed against the original narration audio. Application code and trained weights are unchanged by this documentation update.
