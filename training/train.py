@@ -60,7 +60,7 @@ def fit_baseline(data, mean, scale):
             "weights": best.coef_.tolist(), "bias": best.intercept_.tolist()}
 
 
-def train(config, output, progress=None, cancelled=None, baseline=None):
+def train(config, output, progress=None, cancelled=None, baseline=None, training_loss=None):
     started = time.perf_counter()
     torch.set_num_threads(1)
     torch.manual_seed(config.seed)
@@ -105,7 +105,7 @@ def train(config, output, progress=None, cancelled=None, baseline=None):
         for indices in permutation.split(config.batch_size):
             optimizer.zero_grad()                     # Clear previous batch gradients.
             logits = model(x["train"][indices])        # Forward propagation.
-            loss = criterion(logits, y["train"][indices])  # Cross-entropy loss.
+            loss = (training_loss or criterion)(logits, y["train"][indices])  # Cross-entropy loss.
             loss.backward()                           # Backpropagation via autograd.
             gradient_norm = float(torch.sqrt(sum((p.grad ** 2).sum() for p in model.parameters())))
             optimizer.step()                          # theta <- theta - lr * gradient.
